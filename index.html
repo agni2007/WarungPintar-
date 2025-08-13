@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warung Pintar</title>
+    <style>
+        :root {
+            --primary-color: #FFD700;
+            --primary-dark: #FFC000;
+            --primary-light: #FFFACD;
+            --text-color: #333;
+            --white: #FFFFFF;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+            --info: #2196F3;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFF9C4;
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background-color: var(--primary-dark);
+            border-radius: 5px 5px 0 0;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            color: var(--text-color);
+        }
+        
+        .nav-tab:hover:not(.active) {
+            background-color: #FFDD55;
+        }
+
+        .nav-tab.active {
+            background-color: var(--white);
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: var(--primary-dark);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.1s;
+            font-size: 16px;
+            margin-right: 5px;
+        }
+        
+        button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #5cb85c;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+        .btn-warning:hover {
+            background-color: #f0ad4e;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #d9534f;
+        }
+        
+        .btn-info {
+            background-color: var(--info);
+            color: white;
+        }
+        .btn-info:hover {
+            background-color: #1e88e5;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: var(--primary-light);
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .status-lunas {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .status-belum {
+            color: var(--danger);
+            font-weight: bold;
+        }
+        
+        .search-box {
+            margin-bottom: 15px;
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            min-width: 150px;
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin: 5px 0;
+        }
+        
+        .stat-label {
+            font-size: 15px;
+            color: #666;
+        }
+        
+        .category-tag {
+            display: inline-block;
+            background-color: var(--info);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        
+        .variant-tag {
+            display: inline-block;
+            background-color: var(--warning);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: black;
+        }
+        
+        .variant-price-container {
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        
+        .variant-price-row {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        
+        .variant-price-row input {
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .variant-price-row button {
+            width: auto;
+            padding: 5px 10px;
+        }
+        
+        .month-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        
+        .month-selector select, .month-selector button {
+            width: auto;
+        }
+        
+        .drilldown-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        
+        .drilldown-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .drilldown-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+        
+        .drilldown-back {
+            background-color: var(--info);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .drilldown-back:hover {
+            background-color: #1e88e5;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .search-results {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            width: calc(100% - 2px);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+        
+        .search-result-item {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .search-result-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .time-info {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .download-btn {
+            background-color: var(--success);
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .download-btn:hover {
+            background-color: #5cb85c;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-controls input, .filter-controls select {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .btn-lunas {
+            background-color: var(--success);
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        .btn-lunas:hover {
+            background-color: #5cb85c;
+        }
+        
+        /* Styles for download riwayat page */
+        .pdf-container {
+            margin-top: 20px;
+        }
+        
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .pdf-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .pdf-table th, .pdf-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        .pdf-table th {
+            background-color: var(--primary-light);
+        }
+        
+        .month-row {
+            background-color: #ccc;
+            font-weight: bold;
+        }
+        
+        .date-row {
+            background-color: #eee;
+            font-weight: bold;
+            padding-left: 15px;
+        }
+        
+        .transaction-row {
+            padding-left: 30px;
+        }
+        
+        .unpaid-price {
+            color: var(--danger);
+        }
+        
+        .summary-row {
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+        
+        .unpaid-summary {
+            color: var(--danger);
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px auto;
+            }
+            .nav-tabs {
+                flex-direction: column;
+            }
+            .stat-card {
+                min-width: 100%;
+            }
+            th, td {
+                padding: 8px 5px;
+                font-size: 14px;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            .month-selector select, .month-selector button {
+                width: 100%;
+            }
+            .filter-controls {
+                flex-direction: column;
+            }
+            .filter-controls input, .filter-controls select {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Warung Pintar</h1>
+    </div>
+    
+    <div class="container">
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="openTab(event, 'barang')">Data Barang</div>
+            <div class="nav-tab" onclick="openTab(event, 'penjualan')">Penjualan</div>
+            <div class="nav-tab" onclick="openTab(event, 'statistik')">Statistik & Riwayat</div>
+            <div class="nav-tab" onclick="openTab(event, 'kategori')">Kategori</div>
+            <div class="nav-tab" onclick="openTab(event, 'download-riwayat')">Download Riwayat</div>
+        </div>
+        
+        <!-- Tab Data Barang -->
+        <div id="barang" class="tab-content active">
+            <h2>Data Barang</h2>
+            <!-- Form input barang -->
+            <div class="form-group">
+                <label for="nama-barang">Nama Barang</label>
+                <input type="text" id="nama-barang" placeholder="Masukkan nama barang">
+            </div>
+            <div class="form-group">
+                <label for="harga-modal">Harga Modal Default (Rp)</label>
+                <input type="number" id="harga-modal" placeholder="Masukkan harga modal" min="0">
+            </div>
+            <div class="form-group">
+                <label for="harga-jual">Harga Jual Default (Rp)</label>
+                <input type="number" id="harga-jual" placeholder="Masukkan harga jual" min="0">
+            </div>
+            <div class="form-group">
+                <label for="kategori-barang">Kategori</label>
+                <select id="kategori-barang">
+                    <option value="">Pilih kategori...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Varian Barang</label>
+                <div class="variant-price-container" id="variant-container">
+                    <div class="variant-price-row">
+                        <input type="text" id="varian-nama" placeholder="Nama varian">
+                        <input type="number" id="varian-modal" placeholder="Harga modal" min="0">
+                        <input type="number" id="varian-jual" placeholder="Harga jual" min="0">
+                        <button onclick="tambahVarian()">Tambah</button>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-success" onclick="simpanBarang()">Simpan Barang</button>
+            
+            <!-- Pencarian dan filter -->
+            <div class="search-box">
+                <input type="text" id="search-barang" placeholder="Cari barang..." oninput="cariBarang(this.value)">
+                <select id="filter-kategori" onchange="filterByCategory()">
+                    <option value="">Semua Kategori</option>
+                </select>
+            </div>
+            
+            <!-- Tabel daftar barang -->
+            <table id="tabel-barang">
+                <thead>
+                    <tr>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Varian</th>
+                        <th>Harga Modal</th>
+                        <th>Harga Jual</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Tab Penjualan -->
+        <div id="penjualan" class="tab-content">
+            <h2>Pencatatan Penjualan</h2>
+            <div class="form-group">
+                <label for="cari-barang-penjualan">Cari Barang</label>
+                <input type="text" id="cari-barang-penjualan" placeholder="Ketik nama barang untuk mencari..." oninput="cariBarangPenjualan(this.value)">
+                <div id="hasil-pencarian" class="search-results"></div>
+            </div>
+            
+            <div id="varian-container-penjualan" class="form-group hidden">
+                <label for="pilih-varian">Pilih Varian</label>
+                <select id="pilih-varian" onchange="pilihVarianPenjualan()">
+                    <option value="">Pilih varian...</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="nama-pembeli">Nama Pembeli</label>
+                <input type="text" id="nama-pembeli" placeholder="Masukkan nama pembeli">
+            </div>
+            <div class="form-group">
+                <label for="jumlah-barang">Jumlah</label>
+                <input type="number" id="jumlah-barang" placeholder="Masukkan jumlah" value="1" min="1" oninput="hitungTotalHarga()">
+            </div>
+            <div class="form-group">
+                <label for="status-pembayaran">Status Pembayaran</label>
+                <select id="status-pembayaran">
+                    <option value="lunas">Lunas</option>
+                    <option value="belum">Belum Lunas</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Total Harga</label>
+                <div id="total-harga-penjualan" style="font-weight: bold; color: var(--primary-dark);">Rp0</div>
+            </div>
+            <div class="time-info">
+                <div>Tanggal: <span id="tanggal-sekarang"></span></div>
+                <div>Jam: <span id="jam-sekarang"></span></div>
+            </div>
+            <button class="btn-success" onclick="simpanPenjualan()">Simpan Transaksi</button>
+        </div>
+        
+        <!-- Tab Statistik -->
+        <div id="statistik" class="tab-content">
+            <h2>Statistik & Riwayat Transaksi</h2>
+            <div class="month-selector">
+                <label for="stat-month">Pilih Bulan:</label>
+                <input type="month" id="stat-month" onchange="updateStatistics()">
+                <button class="download-btn" onclick="downloadRiwayat()">Download Riwayat</button>
+            </div>
+            
+            <div class="filter-controls">
+                <input type="text" id="search-transaksi" placeholder="Cari berdasarkan nama barang/pembeli..." oninput="filterTransaksi()">
+                <select id="filter-status" onchange="filterTransaksi()">
+                    <option value="">Semua Status</option>
+                    <option value="lunas">Lunas</option>
+                    <option value="belum">Belum Lunas</option>
+                </select>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value" id="barang-terjual-stat">0</div>
+                    <div class="stat-label">Jumlah Barang Terjual (Lunas)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-pendapatan-stat">Rp0</div>
+                    <div class="stat-label">Total Pendapatan (Lunas)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-keuntungan-stat">Rp0</div>
+                    <div class="stat-label">Total Keuntungan Bersih (Lunas)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-piutang-stat">Rp0</div>
+                    <div class="stat-label">Total Piutang</div>
+                </div>
+            </div>
+            
+            <!-- Drill-down Statistik -->
+            <div id="month-summary" class="drilldown-container">
+                <div class="drilldown-header">
+                    <div class="drilldown-title">📊 Ringkasan Bulan</div>
+                </div>
+                <p>Total Transaksi: <span id="totalTransaksi">0</span></p>
+                <p>Total Omzet: Rp <span id="totalOmzet">0</span></p>
+                <p>Total Keuntungan: Rp <span id="totalKeuntungan">0</span></p>
+
+                <h4>📅 Transaksi per Tanggal</h4>
+                <table id="tanggalTable">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Jumlah Transaksi</th>
+                            <th>Omzet</th>
+                            <th>Keuntungan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="date-details" class="drilldown-container hidden">
+                <div class="drilldown-header">
+                    <div class="drilldown-title">📅 Transaksi Tanggal <span id="selectedDate"></span></div>
+                    <button class="drilldown-back" onclick="backToMonthSummary()">⬅ Kembali</button>
+                </div>
+                <table id="transaksiTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Barang</th>
+                            <th>Kategori</th>
+                            <th>Varian</th>
+                            <th>Jumlah</th>
+                            <th>Total</th>
+                            <th>Pembeli</th>
+                            <th>Status</th>
+                            <th>Waktu</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="transaction-details" class="drilldown-container hidden">
+                <div class="drilldown-header">
+                    <div class="drilldown-title">🔍 Detail Transaksi</div>
+                    <button class="drilldown-back" onclick="backToDateDetails()">⬅ Kembali</button>
+                </div>
+                <div class="form-group">
+                    <label>ID Transaksi:</label>
+                    <div id="detail-id"></div>
+                </div>
+                <div class="form-group">
+                    <label>Tanggal & Waktu:</label>
+                    <div id="detail-tanggal"></div>
+                </div>
+                <div class="form-group">
+                    <label>Barang:</label>
+                    <div id="detail-barang"></div>
+                </div>
+                <div class="form-group">
+                    <label>Kategori:</label>
+                    <div id="detail-kategori"></div>
+                </div>
+                <div class="form-group">
+                    <label>Varian:</label>
+                    <div id="detail-varian"></div>
+                </div>
+                <div class="form-group">
+                    <label>Jumlah:</label>
+                    <div id="detail-jumlah"></div>
+                </div>
+                <div class="form-group">
+                    <label>Harga Modal:</label>
+                    <div id="detail-modal"></div>
+                </div>
+                <div class="form-group">
+                    <label>Harga Jual:</label>
+                    <div id="detail-harga"></div>
+                </div>
+                <div class="form-group">
+                    <label>Total Harga:</label>
+                    <div id="detail-total-harga"></div>
+                </div>
+                <div class="form-group">
+                    <label>Keuntungan:</label>
+                    <div id="detail-keuntungan"></div>
+                </div>
+                <div class="form-group">
+                    <label>Pembeli:</label>
+                    <div id="detail-pembeli"></div>
+                </div>
+                <div class="form-group">
+                    <label>Status Pembayaran:</label>
+                    <div id="detail-status"></div>
+                </div>
+                <button class="btn-danger" onclick="showDeleteModal(currentTransaction.id)">Hapus Transaksi</button>
+                <button id="btn-lunaskan" class="btn-lunas hidden" onclick="lunaskanTransaksi(currentTransaction.id)">Lunaskan</button>
+            </div>
+        </div>
+        
+        <!-- Tab Kategori -->
+        <div id="kategori" class="tab-content">
+            <h2>Manajemen Kategori</h2>
+            <div class="form-group">
+                <label for="nama-kategori">Nama Kategori</label>
+                <input type="text" id="nama-kategori" placeholder="Masukkan nama kategori">
+            </div>
+            <button class="btn-success" onclick="tambahKategori()">Tambah Kategori</button>
+            
+            <h3>Daftar Kategori</h3>
+            <table id="tabel-kategori">
+                <thead>
+                    <tr>
+                        <th>Nama Kategori</th>
+                        <th>Jumlah Produk</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Tab Download Riwayat -->
+        <div id="download-riwayat" class="tab-content">
+            <h2>Download Riwayat Transaksi</h2>
+            <div class="form-group">
+                <label for="pdf-month">Pilih Bulan & Tahun:</label>
+                <input type="month" id="pdf-month" onchange="updatePDFPreview()">
+            </div>
+            
+            <div class="form-group">
+                <label for="pdf-search">Cari (Nama Pembeli/Produk):</label>
+                <input type="text" id="pdf-search" placeholder="Nama pembeli / produk" oninput="updatePDFPreview()">
+            </div>
+            
+            <div class="form-group">
+                <label for="pdf-status">Status Pembayaran:</label>
+                <select id="pdf-status" onchange="updatePDFPreview()">
+                    <option value="">Semua Status</option>
+                    <option value="lunas">Lunas</option>
+                    <option value="belum">Belum Lunas</option>
+                </select>
+            </div>
+            
+            <button class="btn-success" onclick="generatePDF()">Generate PDF</button>
+            
+            <div class="pdf-container">
+                <div class="pdf-header">
+                    <h3>Pratinjau Riwayat Transaksi</h3>
+                    <div id="pdf-summary"></div>
+                </div>
+                <table id="pdf-preview" class="pdf-table">
+                    <thead>
+                        <tr>
+                            <th>Tanggal / Waktu</th>
+                            <th>Nama Pembeli</th>
+                            <th>Produk</th>
+                            <th>Varian</th>
+                            <th>Jumlah</th>
+                            <th>Total</th>
+                            <th>Keuntungan</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for Delete Confirmation -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Konfirmasi Hapus Transaksi</h3>
+            <p>Masukkan password untuk menghapus transaksi ini:</p>
+            <input type="password" id="deletePassword" placeholder="Password">
+            <div style="margin-top: 20px; text-align: right;">
+                <button onclick="closeModal()">Batal</button>
+                <button class="btn-danger" onclick="confirmDeleteTransaction()">Hapus</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- jsPDF & autoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    
+    <script>
+        // Data penyimpanan sementara (simulasi database)
+        let daftarBarang = JSON.parse(localStorage.getItem('daftarBarang')) || [
+            { 
+                id: 1, 
+                nama: 'Indomie Goreng', 
+                hargaModal: 2500, 
+                hargaJual: 3500, 
+                kategori: 'Makanan', 
+                varian: [
+                    { nama: 'Original', hargaModal: 2500, hargaJual: 3500 },
+                    { nama: 'Pedas', hargaModal: 2700, hargaJual: 4000 }
+                ] 
+            },
+            { 
+                id: 2, 
+                nama: 'Aqua Gelas', 
+                hargaModal: 500, 
+                hargaJual: 1000, 
+                kategori: 'Minuman', 
+                varian: [] 
+            }
+        ];
+
+        let riwayatTransaksi = JSON.parse(localStorage.getItem('riwayatTransaksi')) || [
+            { 
+                id: 1, 
+                tanggal: new Date().toISOString().split('T')[0], 
+                waktu: new Date().toLocaleTimeString('id-ID'),
+                barangId: 1, 
+                namaBarang: 'Indomie Goreng', 
+                kategori: 'Makanan', 
+                varian: 'Pedas', 
+                jumlah: 2, 
+                totalHarga: 8000, 
+                totalModal: 5400, 
+                namaPembeli: 'Budi', 
+                statusPembayaran: 'lunas', 
+                keuntungan: 2600 
+            },
+            { 
+                id: 2, 
+                tanggal: new Date().toISOString().split('T')[0], 
+                waktu: new Date().toLocaleTimeString('id-ID'),
+                barangId: 2, 
+                namaBarang: 'Aqua Gelas', 
+                kategori: 'Minuman', 
+                varian: '', 
+                jumlah: 5, 
+                totalHarga: 5000, 
+                totalModal: 2500, 
+                namaPembeli: 'Ani', 
+                statusPembayaran: 'belum', 
+                keuntungan: 2500 
+            }
+        ];
+
+        let daftarKategori = JSON.parse(localStorage.getItem('daftarKategori')) || ['Makanan', 'Minuman'];
+        
+        const ADMIN_PASSWORD = "admin123"; // Password untuk menghapus transaksi
+
+        let barangTerpilihUntukPenjualan = null;
+        let varianTerpilihUntukPenjualan = null;
+        let transaksiYangAkanDihapus = null;
+
+        // Variabel untuk drill-down statistik
+        let currentMonthData = [];
+        let currentDateData = [];
+        let currentTransaction = null;
+
+        function saveToLocalStorage() {
+            localStorage.setItem('daftarBarang', JSON.stringify(daftarBarang));
+            localStorage.setItem('riwayatTransaksi', JSON.stringify(riwayatTransaksi));
+            localStorage.setItem('daftarKategori', JSON.stringify(daftarKategori));
+        }
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+        }
+
+        function openTab(evt, tabName) {
+            var i, tabContent, navTabs;
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.remove("active");
+            }
+            navTabs = document.getElementsByClassName("nav-tab");
+            for (i = 0; i < navTabs.length; i++) {
+                navTabs[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+
+            // Refresh data when tab is opened
+            if (tabName === 'barang') {
+                renderBarangTable();
+                populateCategoryDropdown('kategori-barang');
+                populateCategoryDropdown('filter-kategori');
+            } else if (tabName === 'penjualan') {
+                updateWaktu();
+                document.getElementById('nama-pembeli').value = '';
+                document.getElementById('jumlah-barang').value = 1;
+                document.getElementById('status-pembayaran').value = 'lunas';
+                document.getElementById('total-harga-penjualan').textContent = 'Rp0';
+                document.getElementById('cari-barang-penjualan').value = '';
+                document.getElementById('hasil-pencarian').innerHTML = '';
+                document.getElementById('hasil-pencarian').style.display = 'none';
+                document.getElementById('varian-container-penjualan').classList.add('hidden');
+                barangTerpilihUntukPenjualan = null;
+                varianTerpilihUntukPenjualan = null;
+            } else if (tabName === 'statistik') {
+                const now = new Date();
+                const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+                document.getElementById('stat-month').value = currentMonth;
+                updateStatistics();
+            } else if (tabName === 'kategori') {
+                renderKategoriTable();
+            } else if (tabName === 'download-riwayat') {
+                const now = new Date();
+                const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+                document.getElementById('pdf-month').value = currentMonth;
+                document.getElementById('pdf-search').value = '';
+                document.getElementById('pdf-status').value = '';
+                updatePDFPreview();
+            }
+        }
+
+        // --- Kategori Functions ---
+        function populateCategoryDropdown(elementId, includeEmpty = true) {
+            const selectElement = document.getElementById(elementId);
+            const currentValue = selectElement.value;
+            
+            selectElement.innerHTML = includeEmpty ? '<option value="">Pilih kategori...</option>' : '';
+            
+            daftarKategori.forEach(kategori => {
+                const option = document.createElement('option');
+                option.value = kategori;
+                option.textContent = kategori;
+                selectElement.appendChild(option);
+            });
+            
+            if (currentValue && daftarKategori.includes(currentValue)) {
+                selectElement.value = currentValue;
+            }
+        }
+
+        function tambahKategori() {
+            const namaKategori = document.getElementById('nama-kategori').value.trim();
+            
+            if (!namaKategori) {
+                alert('Nama kategori tidak boleh kosong');
+                return;
+            }
+            
+            if (daftarKategori.includes(namaKategori)) {
+                alert('Kategori sudah ada');
+                return;
+            }
+            
+            daftarKategori.push(namaKategori);
+            saveToLocalStorage();
+            document.getElementById('nama-kategori').value = '';
+            
+            populateCategoryDropdown('kategori-barang');
+            populateCategoryDropdown('filter-kategori');
+            
+            renderKategoriTable();
+            alert('Kategori berhasil ditambahkan');
+        }
+
+        function hapusKategori(namaKategori) {
+            if (confirm(`Apakah Anda yakin ingin menghapus kategori "${namaKategori}"?`)) {
+                const produkDenganKategori = daftarBarang.filter(barang => barang.kategori === namaKategori);
+                
+                if (produkDenganKategori.length > 0) {
+                    alert(`Tidak dapat menghapus kategori karena terdapat ${produkDenganKategori.length} produk yang menggunakan kategori ini.`);
+                    return;
+                }
+                
+                daftarKategori = daftarKategori.filter(k => k !== namaKategori);
+                saveToLocalStorage();
+                
+                populateCategoryDropdown('kategori-barang');
+                populateCategoryDropdown('filter-kategori');
+                
+                renderKategoriTable();
+                alert('Kategori berhasil dihapus');
+            }
+        }
+
+        function renderKategoriTable() {
+            const tableBody = document.querySelector('#tabel-kategori tbody');
+            tableBody.innerHTML = '';
+            
+            daftarKategori.forEach(kategori => {
+                const jumlahProduk = daftarBarang.filter(barang => barang.kategori === kategori).length;
+                
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = kategori;
+                row.insertCell().textContent = jumlahProduk;
+                
+                const actionCell = row.insertCell();
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'btn-danger';
+                deleteButton.textContent = 'Hapus';
+                deleteButton.onclick = () => hapusKategori(kategori);
+                actionCell.appendChild(deleteButton);
+            });
+        }
+
+        // --- Data Barang Tab Functions ---
+        function tambahVarian() {
+            const namaVarian = document.getElementById('varian-nama').value.trim();
+            const hargaModal = parseInt(document.getElementById('varian-modal').value);
+            const hargaJual = parseInt(document.getElementById('varian-jual').value);
+            
+            if (!namaVarian || isNaN(hargaModal) || isNaN(hargaJual) || hargaModal < 0 || hargaJual < 0) {
+                alert('Mohon isi nama varian dan harga dengan benar');
+                return;
+            }
+            
+            if (hargaJual < hargaModal) {
+                alert('Harga jual tidak boleh lebih kecil dari harga modal');
+                return;
+            }
+            
+            const container = document.getElementById('variant-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'variant-price-row';
+            newRow.innerHTML = `
+                <span>${namaVarian}</span>
+                <span>Modal: ${formatRupiah(hargaModal)}</span>
+                <span>Jual: ${formatRupiah(hargaJual)}</span>
+                <button class="btn-danger" onclick="hapusVarianBaris(this)">Hapus</button>
+                <input type="hidden" name="varian-nama" value="${namaVarian}">
+                <input type="hidden" name="varian-modal" value="${hargaModal}">
+                <input type="hidden" name="varian-jual" value="${hargaJual}">
+            `;
+            container.appendChild(newRow);
+            
+            document.getElementById('varian-nama').value = '';
+            document.getElementById('varian-modal').value = '';
+            document.getElementById('varian-jual').value = '';
+        }
+        
+        function hapusVarianBaris(button) {
+            if (confirm('Apakah Anda yakin ingin menghapus varian ini?')) {
+                button.parentElement.remove();
+            }
+        }
+
+        function renderBarangTable(filteredData = daftarBarang) {
+            const tableBody = document.querySelector('#tabel-barang tbody');
+            tableBody.innerHTML = '';
+
+            if (filteredData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Tidak ada barang ditemukan.</td></tr>';
+                return;
+            }
+
+            filteredData.forEach(barang => {
+                const row = tableBody.insertRow();
+                row.insertCell().textContent = barang.nama;
+                
+                const kategoriCell = row.insertCell();
+                if (barang.kategori) {
+                    const kategoriTag = document.createElement('span');
+                    kategoriTag.className = 'category-tag';
+                    kategoriTag.textContent = barang.kategori;
+                    kategoriCell.appendChild(kategoriTag);
+                }
+                
+                const varianCell = row.insertCell();
+                if (barang.varian && barang.varian.length > 0) {
+                    barang.varian.forEach(v => {
+                        const variantTag = document.createElement('span');
+                        variantTag.className = 'variant-tag';
+                        variantTag.textContent = v.nama;
+                        varianCell.appendChild(variantTag);
+                    });
+                }
+                
+                row.insertCell().textContent = formatRupiah(barang.hargaModal);
+                row.insertCell().textContent = formatRupiah(barang.hargaJual);
+                
+                const actionCell = row.insertCell();
+                const editButton = document.createElement('button');
+                editButton.className = 'btn-warning';
+                editButton.textContent = 'Edit';
+                editButton.onclick = () => editBarang(barang.id);
+                actionCell.appendChild(editButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'btn-danger';
+                deleteButton.textContent = 'Hapus';
+                deleteButton.onclick = () => hapusBarang(barang.id);
+                actionCell.appendChild(deleteButton);
+            });
+        }
+
+        function simpanBarang() {
+            const nama = document.getElementById('nama-barang').value.trim();
+            const hargaModal = parseInt(document.getElementById('harga-modal').value);
+            const hargaJual = parseInt(document.getElementById('harga-jual').value);
+            const kategori = document.getElementById('kategori-barang').value;
+            
+            const varianRows = document.querySelectorAll('#variant-container .variant-price-row:not(:first-child)');
+            const varian = [];
+            
+            varianRows.forEach(row => {
+                const namaVarian = row.querySelector('input[name="varian-nama"]').value;
+                const hargaModalVarian = parseInt(row.querySelector('input[name="varian-modal"]').value);
+                const hargaJualVarian = parseInt(row.querySelector('input[name="varian-jual"]').value);
+                
+                varian.push({
+                    nama: namaVarian,
+                    hargaModal: hargaModalVarian,
+                    hargaJual: hargaJualVarian
+                });
+            });
+
+            if (!nama || isNaN(hargaModal) || isNaN(hargaJual) || hargaModal < 0 || hargaJual < 0) {
+                alert('Mohon lengkapi semua data barang dengan benar (harga tidak boleh negatif).');
+                return;
+            }
+            
+            if (hargaJual < hargaModal) {
+                alert('Harga jual tidak boleh lebih kecil dari harga modal');
+                return;
+            }
+
+            const newId = daftarBarang.length > 0 ? Math.max(...daftarBarang.map(b => b.id)) + 1 : 1;
+            daftarBarang.push({ 
+                id: newId, 
+                nama, 
+                hargaModal, 
+                hargaJual, 
+                kategori: kategori || null,
+                varian 
+            });
+            saveToLocalStorage();
+            renderBarangTable();
+            
+            document.getElementById('nama-barang').value = '';
+            document.getElementById('harga-modal').value = '';
+            document.getElementById('harga-jual').value = '';
+            document.getElementById('kategori-barang').value = '';
+            document.getElementById('variant-container').innerHTML = `
+                <div class="variant-price-row">
+                    <input type="text" id="varian-nama" placeholder="Nama varian">
+                    <input type="number" id="varian-modal" placeholder="Harga modal" min="0">
+                    <input type="number" id="varian-jual" placeholder="Harga jual" min="0">
+                    <button onclick="tambahVarian()">Tambah</button>
+                </div>
+            `;
+            alert('Barang berhasil disimpan!');
+        }
+
+        function editBarang(id) {
+            const barang = daftarBarang.find(b => b.id === id);
+            if (!barang) return;
+
+            const editForm = `
+                <div>
+                    <div class="form-group">
+                        <label>Nama Barang</label>
+                        <input type="text" id="edit-nama" value="${barang.nama}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Harga Modal Default</label>
+                        <input type="number" id="edit-modal" value="${barang.hargaModal}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Harga Jual Default</label>
+                        <input type="number" id="edit-jual" value="${barang.hargaJual}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select id="edit-kategori" class="form-control">
+                            <option value="">Pilih kategori...</option>
+                            ${daftarKategori.map(k => `<option value="${k}" ${k === barang.kategori ? 'selected' : ''}>${k}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Varian</label>
+                        <div id="edit-varian-container" class="variant-price-container">
+                            ${barang.varian.map(v => `
+                                <div class="variant-price-row">
+                                    <input type="text" name="edit-varian-nama" value="${v.nama}" class="form-control">
+                                    <input type="number" name="edit-varian-modal" value="${v.hargaModal}" class="form-control">
+                                    <input type="number" name="edit-varian-jual" value="${v.hargaJual}" class="form-control">
+                                    <button class="btn-danger" onclick="this.parentElement.remove()">Hapus</button>
+                                </div>
+                            `).join('')}
+                            <div class="variant-price-row">
+                                <input type="text" id="edit-new-varian-nama" placeholder="Nama varian" class="form-control">
+                                <input type="number" id="edit-new-varian-modal" placeholder="Harga modal" class="form-control">
+                                <input type="number" id="edit-new-varian-jual" placeholder="Harga jual" class="form-control">
+                                <button onclick="tambahVarianEdit()">Tambah</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; text-align: right;">
+                        <button onclick="closeEditModal()">Batal</button>
+                        <button class="btn-success" onclick="simpanEditBarang(${barang.id})">Simpan</button>
+                    </div>
+                </div>
+            `;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.id = 'editModal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 600px;">
+                    <span class="close" onclick="closeEditModal()">&times;</span>
+                    <h3>Edit Barang</h3>
+                    ${editForm}
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+        }
+
+        function tambahVarianEdit() {
+            const nama = document.getElementById('edit-new-varian-nama').value.trim();
+            const modal = parseInt(document.getElementById('edit-new-varian-modal').value);
+            const jual = parseInt(document.getElementById('edit-new-varian-jual').value);
+            
+            if (!nama || isNaN(modal) || isNaN(jual) || modal < 0 || jual < 0) {
+                alert('Mohon isi nama varian dan harga dengan benar');
+                return;
+            }
+            
+            if (jual < modal) {
+                alert('Harga jual tidak boleh lebih kecil dari harga modal');
+                return;
+            }
+            
+            const container = document.getElementById('edit-varian-container');
+            const newRow = document.createElement('div');
+            newRow.className = 'variant-price-row';
+            newRow.innerHTML = `
+                <input type="text" name="edit-varian-nama" value="${nama}" class="form-control">
+                <input type="number" name="edit-varian-modal" value="${modal}" class="form-control">
+                <input type="number" name="edit-varian-jual" value="${jual}" class="form-control">
+                <button class="btn-danger" onclick="this.parentElement.remove()">Hapus</button>
+            `;
+            container.insertBefore(newRow, container.lastElementChild);
+            
+            document.getElementById('edit-new-varian-nama').value = '';
+            document.getElementById('edit-new-varian-modal').value = '';
+            document.getElementById('edit-new-varian-jual').value = '';
+        }
+
+        function simpanEditBarang(id) {
+            const nama = document.getElementById('edit-nama').value.trim();
+            const hargaModal = parseInt(document.getElementById('edit-modal').value);
+            const hargaJual = parseInt(document.getElementById('edit-jual').value);
+            const kategori = document.getElementById('edit-kategori').value;
+            
+            const varianRows = document.querySelectorAll('#edit-varian-container .variant-price-row:not(:last-child)');
+            const varian = [];
+            
+            varianRows.forEach(row => {
+                const namaVarian = row.querySelector('input[name="edit-varian-nama"]').value;
+                const hargaModalVarian = parseInt(row.querySelector('input[name="edit-varian-modal"]').value);
+                const hargaJualVarian = parseInt(row.querySelector('input[name="edit-varian-jual"]').value);
+                
+                varian.push({
+                    nama: namaVarian,
+                    hargaModal: hargaModalVarian,
+                    hargaJual: hargaJualVarian
+                });
+            });
+
+            if (!nama || isNaN(hargaModal) || isNaN(hargaJual) || hargaModal < 0 || hargaJual < 0) {
+                alert('Mohon lengkapi semua data barang dengan benar (harga tidak boleh negatif).');
+                return;
+            }
+            
+            if (hargaJual < hargaModal) {
+                alert('Harga jual tidak boleh lebih kecil dari harga modal');
+                return;
+            }
+
+            const barangIndex = daftarBarang.findIndex(b => b.id === id);
+            if (barangIndex !== -1) {
+                daftarBarang[barangIndex] = {
+                    ...daftarBarang[barangIndex],
+                    nama,
+                    hargaModal,
+                    hargaJual,
+                    kategori: kategori || null,
+                    varian
+                };
+                saveToLocalStorage();
+                renderBarangTable();
+                closeEditModal();
+                alert('Barang berhasil diupdate!');
+            }
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function hapusBarang(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
+                const transaksiDenganBarang = riwayatTransaksi.filter(t => t.barangId === id);
+                
+                if (transaksiDenganBarang.length > 0) {
+                    alert(`Tidak dapat menghapus barang karena terdapat ${transaksiDenganBarang.length} transaksi yang menggunakan barang ini.`);
+                    return;
+                }
+                
+                daftarBarang = daftarBarang.filter(b => b.id !== id);
+                saveToLocalStorage();
+                renderBarangTable();
+                alert('Barang berhasil dihapus!');
+            }
+        }
+
+        function cariBarang(keyword) {
+            const lowerCaseKeyword = keyword.toLowerCase();
+            const filtered = daftarBarang.filter(barang => 
+                barang.nama.toLowerCase().includes(lowerCaseKeyword)
+            );
+            renderBarangTable(filtered);
+        }
+
+        function filterByCategory() {
+            const selectedCategory = document.getElementById('filter-kategori').value;
+            const searchKeyword = document.getElementById('search-barang').value.toLowerCase();
+            
+            let filtered = daftarBarang;
+            
+            if (selectedCategory) {
+                filtered = filtered.filter(barang => barang.kategori === selectedCategory);
+            }
+            
+            if (searchKeyword) {
+                filtered = filtered.filter(barang => 
+                    barang.nama.toLowerCase().includes(searchKeyword)
+                );
+            }
+            
+            renderBarangTable(filtered);
+        }
+
+        // --- Penjualan Tab Functions ---
+        function updateWaktu() {
+            const now = new Date();
+            document.getElementById('tanggal-sekarang').textContent = now.toLocaleDateString('id-ID');
+            document.getElementById('jam-sekarang').textContent = now.toLocaleTimeString('id-ID');
+        }
+
+        function cariBarangPenjualan(keyword) {
+            const hasilPencarian = document.getElementById('hasil-pencarian');
+            hasilPencarian.innerHTML = '';
+            
+            if (keyword.length < 1) {
+                hasilPencarian.style.display = 'none';
+                document.getElementById('varian-container-penjualan').classList.add('hidden');
+                barangTerpilihUntukPenjualan = null;
+                varianTerpilihUntukPenjualan = null;
+                hitungTotalHarga();
+                return;
+            }
+            
+            const lowerCaseKeyword = keyword.toLowerCase();
+            const filtered = daftarBarang.filter(barang => 
+                barang.nama.toLowerCase().includes(lowerCaseKeyword)
+            );
+            
+            if (filtered.length === 0) {
+                hasilPencarian.style.display = 'none';
+                document.getElementById('varian-container-penjualan').classList.add('hidden');
+                barangTerpilihUntukPenjualan = null;
+                varianTerpilihUntukPenjualan = null;
+                hitungTotalHarga();
+                return;
+            }
+            
+            filtered.forEach(barang => {
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                item.textContent = `${barang.nama} - ${formatRupiah(barang.hargaJual)}`;
+                item.onclick = () => pilihBarangDariPencarian(barang);
+                hasilPencarian.appendChild(item);
+            });
+            
+            hasilPencarian.style.display = 'block';
+        }
+
+        function pilihBarangDariPencarian(barang) {
+            barangTerpilihUntukPenjualan = barang;
+            document.getElementById('cari-barang-penjualan').value = `${barang.nama} - ${formatRupiah(barang.hargaJual)}`;
+            document.getElementById('hasil-pencarian').style.display = 'none';
+            
+            if (barang.varian && barang.varian.length > 0) {
+                const selectVarian = document.getElementById('pilih-varian');
+                selectVarian.innerHTML = '<option value="">Pilih varian...</option>';
+                
+                barang.varian.forEach(varian => {
+                    const option = document.createElement('option');
+                    option.value = varian.nama;
+                    option.textContent = `${varian.nama} - ${formatRupiah(varian.hargaJual)}`;
+                    selectVarian.appendChild(option);
+                });
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = `Default - ${formatRupiah(barang.hargaJual)}`;
+                selectVarian.appendChild(defaultOption);
+                
+                document.getElementById('varian-container-penjualan').classList.remove('hidden');
+            } else {
+                document.getElementById('varian-container-penjualan').classList.add('hidden');
+                varianTerpilihUntukPenjualan = null;
+            }
+            
+            hitungTotalHarga();
+        }
+
+        function pilihVarianPenjualan() {
+            const selectedVarian = document.getElementById('pilih-varian').value;
+            
+            if (!barangTerpilihUntukPenjualan || !selectedVarian) {
+                varianTerpilihUntukPenjualan = null;
+                hitungTotalHarga();
+                return;
+            }
+            
+            if (selectedVarian === '') {
+                varianTerpilihUntukPenjualan = null;
+            } else {
+                varianTerpilihUntukPenjualan = barangTerpilihUntukPenjualan.varian.find(v => v.nama === selectedVarian);
+            }
+            
+            hitungTotalHarga();
+        }
+
+        function hitungTotalHarga() {
+            const jumlah = parseInt(document.getElementById('jumlah-barang').value);
+            const totalHargaDiv = document.getElementById('total-harga-penjualan');
+
+            let totalHarga = 0;
+
+            if (barangTerpilihUntukPenjualan && jumlah > 0) {
+                if (varianTerpilihUntukPenjualan) {
+                    totalHarga = varianTerpilihUntukPenjualan.hargaJual * jumlah;
+                } else {
+                    totalHarga = barangTerpilihUntukPenjualan.hargaJual * jumlah;
+                }
+            }
+            
+            totalHargaDiv.textContent = formatRupiah(totalHarga);
+        }
+
+        function simpanPenjualan() {
+            const jumlah = parseInt(document.getElementById('jumlah-barang').value);
+            const namaPembeli = document.getElementById('nama-pembeli').value.trim();
+            const statusPembayaran = document.getElementById('status-pembayaran').value;
+
+            if (!barangTerpilihUntukPenjualan || isNaN(jumlah) || jumlah <= 0 || !namaPembeli) {
+                alert('Mohon lengkapi semua data penjualan dengan benar.');
+                return;
+            }
+
+            const now = new Date();
+            const tanggal = now.toISOString().split('T')[0];
+            const waktu = now.toLocaleTimeString('id-ID');
+
+            let hargaJual, hargaModal, namaBarang, varianName;
+            
+            if (varianTerpilihUntukPenjualan) {
+                hargaJual = varianTerpilihUntukPenjualan.hargaJual;
+                hargaModal = varianTerpilihUntukPenjualan.hargaModal;
+                varianName = varianTerpilihUntukPenjualan.nama;
+            } else {
+                hargaJual = barangTerpilihUntukPenjualan.hargaJual;
+                hargaModal = barangTerpilihUntukPenjualan.hargaModal;
+                varianName = '';
+            }
+            
+            const totalHarga = hargaJual * jumlah;
+            const totalModal = hargaModal * jumlah;
+            const keuntungan = totalHarga - totalModal;
+
+            const newId = riwayatTransaksi.length > 0 ? Math.max(...riwayatTransaksi.map(t => t.id)) + 1 : 1;
+            riwayatTransaksi.push({
+                id: newId,
+                tanggal: tanggal,
+                waktu: waktu,
+                barangId: barangTerpilihUntukPenjualan.id,
+                namaBarang: barangTerpilihUntukPenjualan.nama,
+                kategori: barangTerpilihUntukPenjualan.kategori || '',
+                varian: varianName,
+                jumlah: jumlah,
+                totalHarga: totalHarga,
+                totalModal: totalModal,
+                namaPembeli: namaPembeli,
+                statusPembayaran: statusPembayaran,
+                keuntungan: keuntungan
+            });
+            saveToLocalStorage();
+            alert('Transaksi berhasil disimpan!');
+
+            document.getElementById('nama-pembeli').value = '';
+            document.getElementById('jumlah-barang').value = 1;
+            document.getElementById('status-pembayaran').value = 'lunas';
+            document.getElementById('total-harga-penjualan').textContent = 'Rp0';
+            document.getElementById('cari-barang-penjualan').value = '';
+            document.getElementById('hasil-pencarian').innerHTML = '';
+            document.getElementById('hasil-pencarian').style.display = 'none';
+            document.getElementById('varian-container-penjualan').classList.add('hidden');
+            barangTerpilihUntukPenjualan = null;
+            varianTerpilihUntukPenjualan = null;
+            updateWaktu();
+        }
+
+        // --- Statistik & Riwayat Functions ---
+        function filterTransaksi() {
+            const searchKeyword = document.getElementById('search-transaksi').value.toLowerCase();
+            const statusFilter = document.getElementById('filter-status').value;
+            
+            let filtered = currentMonthData;
+            
+            if (statusFilter) {
+                filtered = filtered.filter(transaksi => transaksi.statusPembayaran === statusFilter);
+            }
+            
+            if (searchKeyword) {
+                filtered = filtered.filter(transaksi => 
+                    transaksi.namaBarang.toLowerCase().includes(searchKeyword) || 
+                    transaksi.namaPembeli.toLowerCase().includes(searchKeyword)
+                );
+            }
+            
+            if (document.getElementById('date-details').classList.contains('hidden') === false) {
+                currentDateData = filtered.filter(t => t.tanggal === currentDateData[0]?.tanggal);
+                renderDateDetailsTable();
+            } else {
+                renderMonthSummaryTable(filtered);
+            }
+        }
+
+        function updateStatistics() {
+            const selectedMonth = document.getElementById('stat-month').value;
+            if (!selectedMonth) return;
+            
+            const [year, month] = selectedMonth.split('-').map(Number);
+            
+            currentMonthData = riwayatTransaksi.filter(transaksi => {
+                const transaksiDate = new Date(transaksi.tanggal);
+                return transaksiDate.getFullYear() === year && 
+                       transaksiDate.getMonth() + 1 === month;
+            });
+
+            let totalBarangTerjual = 0;
+            let totalKeuntunganBersih = 0;
+            let totalPendapatan = 0;
+            let totalPiutang = 0;
+            
+            currentMonthData.forEach(transaksi => {
+                if (transaksi.statusPembayaran === 'lunas') {
+                    totalBarangTerjual += transaksi.jumlah;
+                    totalKeuntunganBersih += transaksi.keuntungan;
+                    totalPendapatan += transaksi.totalHarga;
+                } else {
+                    totalPiutang += transaksi.totalHarga;
+                }
+            });
+
+            document.getElementById('barang-terjual-stat').textContent = totalBarangTerjual;
+            document.getElementById('total-pendapatan-stat').textContent = formatRupiah(totalPendapatan);
+            document.getElementById('total-keuntungan-stat').textContent = formatRupiah(totalKeuntunganBersih);
+            document.getElementById('total-piutang-stat').textContent = formatRupiah(totalPiutang);
+
+            document.getElementById('totalTransaksi').textContent = currentMonthData.length;
+            document.getElementById('totalOmzet').textContent = formatRupiah(totalPendapatan).replace('Rp', '');
+            document.getElementById('totalKeuntungan').textContent = formatRupiah(totalKeuntunganBersih).replace('Rp', '');
+
+            renderMonthSummaryTable(currentMonthData);
+
+            document.getElementById('month-summary').classList.remove('hidden');
+            document.getElementById('date-details').classList.add('hidden');
+            document.getElementById('transaction-details').classList.add('hidden');
+        }
+
+        function renderMonthSummaryTable(data) {
+            const perTanggal = {};
+            data.forEach(transaksi => {
+                const tanggal = transaksi.tanggal;
+                if (!perTanggal[tanggal]) {
+                    perTanggal[tanggal] = {
+                        jumlah: 0,
+                        omzet: 0,
+                        keuntungan: 0
+                    };
+                }
+                
+                perTanggal[tanggal].jumlah++;
+                if (transaksi.statusPembayaran === 'lunas') {
+                    perTanggal[tanggal].omzet += transaksi.totalHarga;
+                    perTanggal[tanggal].keuntungan += transaksi.keuntungan;
+                }
+            });
+
+            const tanggalTableBody = document.querySelector('#tanggalTable tbody');
+            tanggalTableBody.innerHTML = '';
+            
+            Object.keys(perTanggal).sort().forEach(tanggal => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${new Date(tanggal).toLocaleDateString('id-ID')}</td>
+                    <td>${perTanggal[tanggal].jumlah}</td>
+                    <td>${formatRupiah(perTanggal[tanggal].omzet)}</td>
+                    <td>${formatRupiah(perTanggal[tanggal].keuntungan)}</td>
+                    <td><button class="btn-info" onclick="showDateDetails('${tanggal}')">Lihat</button></td>
+                `;
+                tanggalTableBody.appendChild(tr);
+            });
+        }
+
+        function showDateDetails(tanggal) {
+            currentDateData = currentMonthData.filter(transaksi => transaksi.tanggal === tanggal);
+            
+            document.getElementById('selectedDate').textContent = new Date(tanggal).toLocaleDateString('id-ID');
+            
+            renderDateDetailsTable();
+            
+            document.getElementById('month-summary').classList.add('hidden');
+            document.getElementById('date-details').classList.remove('hidden');
+        }
+
+        function renderDateDetailsTable() {
+            const transaksiTableBody = document.querySelector('#transaksiTable tbody');
+            transaksiTableBody.innerHTML = '';
+            
+            currentDateData.forEach(transaksi => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${transaksi.id}</td>
+                    <td>${transaksi.namaBarang}</td>
+                    <td>${transaksi.kategori || '-'}</td>
+                    <td>${transaksi.varian || '-'}</td>
+                    <td>${transaksi.jumlah}</td>
+                    <td>${formatRupiah(transaksi.totalHarga)}</td>
+                    <td>${transaksi.namaPembeli}</td>
+                    <td class="${transaksi.statusPembayaran === 'lunas' ? 'status-lunas' : 'status-belum'}">
+                        ${transaksi.statusPembayaran === 'lunas' ? 'Lunas' : 'Belum'}
+                    </td>
+                    <td>${transaksi.waktu}</td>
+                    <td><button class="btn-info" onclick="showTransactionDetails(${transaksi.id})">Detail</button></td>
+                `;
+                transaksiTableBody.appendChild(tr);
+            });
+        }
+
+        function showTransactionDetails(transaksiId) {
+            currentTransaction = currentDateData.find(t => t.id === transaksiId);
+            if (!currentTransaction) return;
+            
+            document.getElementById('detail-id').textContent = currentTransaction.id;
+            document.getElementById('detail-tanggal').textContent = `${new Date(currentTransaction.tanggal).toLocaleDateString('id-ID')} ${currentTransaction.waktu}`;
+            document.getElementById('detail-barang').textContent = currentTransaction.namaBarang;
+            document.getElementById('detail-kategori').textContent = currentTransaction.kategori || '-';
+            document.getElementById('detail-varian').textContent = currentTransaction.varian || '-';
+            document.getElementById('detail-jumlah').textContent = currentTransaction.jumlah;
+            
+            const hargaPerItem = currentTransaction.totalHarga / currentTransaction.jumlah;
+            const modalPerItem = currentTransaction.totalModal / currentTransaction.jumlah;
+            
+            document.getElementById('detail-modal').textContent = formatRupiah(modalPerItem);
+            document.getElementById('detail-harga').textContent = formatRupiah(hargaPerItem);
+            document.getElementById('detail-total-harga').textContent = formatRupiah(currentTransaction.totalHarga);
+            document.getElementById('detail-keuntungan').textContent = formatRupiah(currentTransaction.keuntungan);
+            document.getElementById('detail-pembeli').textContent = currentTransaction.namaPembeli;
+            
+            const statusElement = document.getElementById('detail-status');
+            statusElement.textContent = currentTransaction.statusPembayaran === 'lunas' ? 'Lunas' : 'Belum Lunas';
+            statusElement.className = currentTransaction.statusPembayaran === 'lunas' ? 'status-lunas' : 'status-belum';
+            
+            const btnLunaskan = document.getElementById('btn-lunaskan');
+            if (currentTransaction.statusPembayaran === 'belum') {
+                btnLunaskan.classList.remove('hidden');
+            } else {
+                btnLunaskan.classList.add('hidden');
+            }
+            
+            document.getElementById('date-details').classList.add('hidden');
+            document.getElementById('transaction-details').classList.remove('hidden');
+        }
+
+        function backToMonthSummary() {
+            document.getElementById('date-details').classList.add('hidden');
+            document.getElementById('month-summary').classList.remove('hidden');
+        }
+
+        function backToDateDetails() {
+            document.getElementById('transaction-details').classList.add('hidden');
+            document.getElementById('date-details').classList.remove('hidden');
+        }
+
+        function lunaskanTransaksi(transaksiId) {
+            if (confirm('Apakah Anda yakin ingin melunaskan transaksi ini?')) {
+                const transaksiIndex = riwayatTransaksi.findIndex(t => t.id === transaksiId);
+                if (transaksiIndex !== -1) {
+                    riwayatTransaksi[transaksiIndex].statusPembayaran = 'lunas';
+                    saveToLocalStorage();
+                    updateStatistics();
+                    alert('Transaksi berhasil dilunaskan!');
+                    
+                    if (currentTransaction && currentTransaction.id === transaksiId) {
+                        currentTransaction.statusPembayaran = 'lunas';
+                        document.getElementById('detail-status').textContent = 'Lunas';
+                        document.getElementById('detail-status').className = 'status-lunas';
+                        document.getElementById('btn-lunaskan').classList.add('hidden');
+                    }
+                }
+            }
+        }
+
+        function showDeleteModal(transaksiId) {
+            transaksiYangAkanDihapus = transaksiId;
+            document.getElementById('deletePassword').value = '';
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            transaksiYangAkanDihapus = null;
+        }
+        
+        function confirmDeleteTransaction() {
+            const password = document.getElementById('deletePassword').value;
+            
+            if (password !== ADMIN_PASSWORD) {
+                alert('Password salah!');
+                return;
+            }
+            
+            if (transaksiYangAkanDihapus) {
+                const transaksiIndex = riwayatTransaksi.findIndex(t => t.id === transaksiYangAkanDihapus);
+                if (transaksiIndex !== -1) {
+                    riwayatTransaksi.splice(transaksiIndex, 1);
+                    saveToLocalStorage();
+                    updateStatistics();
+                    alert('Transaksi berhasil dihapus!');
+                    closeModal();
+                    
+                    if (document.getElementById('transaction-details').classList.contains('hidden') === false) {
+                        backToDateDetails();
+                    }
+                }
+            }
+        }
+
+        function downloadRiwayat() {
+            const selectedMonth = document.getElementById('stat-month').value;
+            if (!selectedMonth) return;
+            
+            const [year, month] = selectedMonth.split('-').map(Number);
+            const monthName = new Date(year, month - 1).toLocaleDateString('id-ID', { month: 'long' });
+            
+            const transaksiBulanIni = riwayatTransaksi.filter(transaksi => {
+                const transaksiDate = new Date(transaksi.tanggal);
+                return transaksiDate.getFullYear() === year && 
+                       transaksiDate.getMonth() + 1 === month;
+            });
+
+            if (transaksiBulanIni.length === 0) {
+                alert('Tidak ada data transaksi untuk bulan yang dipilih.');
+                return;
+            }
+
+            let csvContent = "ID,Tanggal,Waktu,Barang,Varian,Jumlah,Total Harga,Pembeli,Status,Keuntungan\n";
+            
+            transaksiBulanIni.forEach(transaksi => {
+                csvContent += `${transaksi.id},"${new Date(transaksi.tanggal).toLocaleDateString('id-ID')}",`;
+                csvContent += `"${transaksi.waktu}",`;
+                csvContent += `"${transaksi.namaBarang}",`;
+                csvContent += `"${transaksi.varian || '-'}",`;
+                csvContent += `${transaksi.jumlah},`;
+                csvContent += `${transaksi.totalHarga},`;
+                csvContent += `"${transaksi.namaPembeli}",`;
+                csvContent += `"${transaksi.statusPembayaran === 'lunas' ? 'Lunas' : 'Belum'}",`;
+                csvContent += `${transaksi.keuntungan}\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `Riwayat_Transaksi_${monthName}_${year}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- Download Riwayat Tab Functions ---
+        function updatePDFPreview() {
+            const selectedMonth = document.getElementById('pdf-month').value;
+            const searchKeyword = document.getElementById('pdf-search').value.toLowerCase();
+            const statusFilter = document.getElementById('pdf-status').value;
+            
+            let dataFilter = riwayatTransaksi;
+            
+            if (selectedMonth) {
+                const [year, month] = selectedMonth.split('-').map(Number);
+                dataFilter = dataFilter.filter(transaksi => {
+                    const transaksiDate = new Date(transaksi.tanggal);
+                    return transaksiDate.getFullYear() === year && 
+                           transaksiDate.getMonth() + 1 === month;
+                });
+            }
+            
+            if (statusFilter) {
+                dataFilter = dataFilter.filter(transaksi => transaksi.statusPembayaran === statusFilter);
+            }
+            
+            if (searchKeyword) {
+                dataFilter = dataFilter.filter(transaksi => 
+                    transaksi.namaBarang.toLowerCase().includes(searchKeyword) || 
+                    transaksi.namaPembeli.toLowerCase().includes(searchKeyword)
+                );
+            }
+            
+            const totalLunas = dataFilter
+                .filter(t => t.statusPembayaran === 'lunas')
+                .reduce((sum, t) => sum + t.totalHarga, 0);
+            
+            const keuntunganLunas = dataFilter
+                .filter(t => t.statusPembayaran === 'lunas')
+                .reduce((sum, t) => sum + t.keuntungan, 0);
+            
+            const totalBelumLunas = dataFilter
+                .filter(t => t.statusPembayaran === 'belum')
+                .reduce((sum, t) => sum + t.totalHarga, 0);
+            
+            const jumlahTransaksiLunas = dataFilter.filter(t => t.statusPembayaran === 'lunas').length;
+            const jumlahTransaksiBelum = dataFilter.filter(t => t.statusPembayaran === 'belum').length;
+            
+            let summaryText = `Total Transaksi: ${dataFilter.length} (Lunas: ${jumlahTransaksiLunas}, Belum: ${jumlahTransaksiBelum}) | `;
+            summaryText += `Total Lunas: ${formatRupiah(totalLunas)} | Keuntungan Lunas: ${formatRupiah(keuntunganLunas)}`;
+            
+            if (totalBelumLunas > 0) {
+                summaryText += ` | Total Belum Lunas: <span class="unpaid-summary">${formatRupiah(totalBelumLunas)}</span>`;
+            }
+            
+            document.getElementById('pdf-summary').innerHTML = summaryText;
+            
+            const grouped = groupTransaksiForPDF(dataFilter);
+            const tbody = document.querySelector('#pdf-preview tbody');
+            tbody.innerHTML = '';
+            
+            for (const bulan in grouped) {
+                const bulanData = Object.values(grouped[bulan]).flat();
+                const totalBulanLunas = bulanData
+                    .filter(t => t.statusPembayaran === 'lunas')
+                    .reduce((sum, t) => sum + t.totalHarga, 0);
+                
+                const keuntunganBulanLunas = bulanData
+                    .filter(t => t.statusPembayaran === 'lunas')
+                    .reduce((sum, t) => sum + t.keuntungan, 0);
+                
+                const totalBulanBelum = bulanData
+                    .filter(t => t.statusPembayaran === 'belum')
+                    .reduce((sum, t) => sum + t.totalHarga, 0);
+                
+                const transaksiBulanLunas = bulanData.filter(t => t.statusPembayaran === 'lunas').length;
+                const transaksiBulanBelum = bulanData.filter(t => t.statusPembayaran === 'belum').length;
+                
+                const monthRow = document.createElement('tr');
+                monthRow.className = 'month-row';
+                
+                let bulanSummary = `${bulan} — ${bulanData.length} transaksi (Lunas: ${transaksiBulanLunas}, Belum: ${transaksiBulanBelum}) | `;
+                bulanSummary += `Total Lunas: ${formatRupiah(totalBulanLunas)} | Keuntungan: ${formatRupiah(keuntunganBulanLunas)}`;
+                
+                if (totalBulanBelum > 0) {
+                    bulanSummary += ` | Total Belum Lunas: <span class="unpaid-summary">${formatRupiah(totalBulanBelum)}</span>`;
+                }
+                
+                monthRow.innerHTML = `<td colspan="8">${bulanSummary}</td>`;
+                tbody.appendChild(monthRow);
+                
+                for (const tgl in grouped[bulan]) {
+                    const harianData = grouped[bulan][tgl];
+                    const totalHarianLunas = harianData
+                        .filter(t => t.statusPembayaran === 'lunas')
+                        .reduce((sum, t) => sum + t.totalHarga, 0);
+                    
+                    const keuntunganHarianLunas = harianData
+                        .filter(t => t.statusPembayaran === 'lunas')
+                        .reduce((sum, t) => sum + t.keuntungan, 0);
+                    
+                    const totalHarianBelum = harianData
+                        .filter(t => t.statusPembayaran === 'belum')
+                        .reduce((sum, t) => sum + t.totalHarga, 0);
+                    
+                    const transaksiHarianLunas = harianData.filter(t => t.statusPembayaran === 'lunas').length;
+                    const transaksiHarianBelum = harianData.filter(t => t.statusPembayaran === 'belum').length;
+                    
+                    const dateRow = document.createElement('tr');
+                    dateRow.className = 'date-row';
+                    
+                    let dateSummary = `${harianData[0].formattedDate} — ${harianData.length} transaksi (Lunas: ${transaksiHarianLunas}, Belum: ${transaksiHarianBelum}) | `;
+                    dateSummary += `Total Lunas: ${formatRupiah(totalHarianLunas)} | Keuntungan: ${formatRupiah(keuntunganHarianLunas)}`;
+                    
+                    if (totalHarianBelum > 0) {
+                        dateSummary += ` | Total Belum Lunas: <span class="unpaid-summary">${formatRupiah(totalHarianBelum)}</span>`;
+                    }
+                    
+                    dateRow.innerHTML = `<td colspan="8">${dateSummary}</td>`;
+                    tbody.appendChild(dateRow);
+                    
+                    grouped[bulan][tgl].forEach(trx => {
+                        const trxRow = document.createElement('tr');
+                        trxRow.className = 'transaction-row';
+                        
+                        const hargaClass = trx.statusPembayaran === 'belum' ? 'unpaid-price' : '';
+                        const totalCell = `<span class="${hargaClass}">${formatRupiah(trx.totalHarga)}</span>`;
+                        const keuntunganCell = `<span class="${hargaClass}">${formatRupiah(trx.keuntungan)}</span>`;
+                        
+                        trxRow.innerHTML = `
+                            <td>${trx.waktu}</td>
+                            <td>${trx.namaPembeli}</td>
+                            <td>${trx.namaBarang}</td>
+                            <td>${trx.varian || '-'}</td>
+                            <td>${trx.jumlah}</td>
+                            <td>${totalCell}</td>
+                            <td>${keuntunganCell}</td>
+                            <td class="${trx.statusPembayaran === 'lunas' ? 'status-lunas' : 'status-belum'}">
+                                ${trx.statusPembayaran === 'lunas' ? 'Lunas' : 'Belum'}
+                            </td>
+                        `;
+                        tbody.appendChild(trxRow);
+                    });
+                }
+            }
+        }
+
+        function groupTransaksiForPDF(data) {
+            const grouped = {};
+            data.forEach(trx => {
+                const [tgl, jam] = [trx.tanggal, trx.waktu];
+                const [tahun, bulan, hari] = tgl.split('-');
+                const namaBulan = new Date(`${tahun}-${bulan}-01`).toLocaleString("id-ID", { month: "long" });
+                const keyBulan = `${namaBulan} ${tahun}`;
+                const keyTanggal = `${hari}-${bulan}-${tahun}`;
+                
+                if (!grouped[keyBulan]) grouped[keyBulan] = {};
+                if (!grouped[keyBulan][keyTanggal]) grouped[keyBulan][keyTanggal] = [];
+                
+                grouped[keyBulan][keyTanggal].push({ 
+                    ...trx, 
+                    jam: jam,
+                    formattedDate: new Date(tgl).toLocaleDateString('id-ID')
+                });
+            });
+            return grouped;
+        }
+
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Set judul dokumen
+            doc.setFontSize(14);
+            doc.text("RIWAYAT TRANSAKSI WARUNG PINTAR", 105, 15, { align: 'center' });
+            
+            // Informasi filter
+            doc.setFontSize(10);
+            
+            // Bulan yang dipilih
+            const selectedMonth = document.getElementById('pdf-month').value;
+            let monthTitle = "Semua Bulan";
+            
+            if (selectedMonth) {
+                const [year, month] = selectedMonth.split('-').map(Number);
+                monthTitle = new Date(year, month - 1).toLocaleDateString('id-ID', { 
+                    month: 'long', 
+                    year: 'numeric' 
+                });
+            }
+            
+            doc.text(`Bulan: ${monthTitle}`, 14, 25);
+            
+            // Keyword pencarian
+            const searchKeyword = document.getElementById('pdf-search').value;
+            if (searchKeyword) {
+                doc.text(`Pencarian: ${searchKeyword}`, 14, 35);
+            }
+            
+            // Status filter
+            const statusFilter = document.getElementById('pdf-status').value;
+            if (statusFilter) {
+                doc.text(`Status: ${statusFilter === 'lunas' ? 'Lunas' : 'Belum Lunas'}`, 14, 45);
+            }
+            
+            // Filter data untuk PDF
+            let dataFilter = riwayatTransaksi;
+            
+            if (selectedMonth) {
+                const [year, month] = selectedMonth.split('-').map(Number);
+                dataFilter = dataFilter.filter(transaksi => {
+                    const transaksiDate = new Date(transaksi.tanggal);
+                    return transaksiDate.getFullYear() === year && 
+                           transaksiDate.getMonth() + 1 === month;
+                });
+            }
+            
+            if (statusFilter) {
+                dataFilter = dataFilter.filter(transaksi => transaksi.statusPembayaran === statusFilter);
+            }
+            
+            if (searchKeyword) {
+                dataFilter = dataFilter.filter(transaksi => 
+                    transaksi.namaBarang.toLowerCase().includes(searchKeyword) || 
+                    transaksi.namaPembeli.toLowerCase().includes(searchKeyword)
+                );
+            }
+            
+            // Hitung total dan keuntungan
+            const totalLunas = dataFilter
+                .filter(t => t.statusPembayaran === 'lunas')
+                .reduce((sum, t) => sum + t.totalHarga, 0);
+            
+            const keuntunganLunas = dataFilter
+                .filter(t => t.statusPembayaran === 'lunas')
+                .reduce((sum, t) => sum + t.keuntungan, 0);
+            
+            const totalBelumLunas = dataFilter
+                .filter(t => t.statusPembayaran === 'belum')
+                .reduce((sum, t) => sum + t.totalHarga, 0);
+            
+            const jumlahTransaksiLunas = dataFilter.filter(t => t.statusPembayaran === 'lunas').length;
+            const jumlahTransaksiBelum = dataFilter.filter(t => t.statusPembayaran === 'belum').length;
+            
+            // Tambahkan ringkasan
+            doc.setFontSize(10);
+            let summaryText = `Total Transaksi: ${dataFilter.length} (Lunas: ${jumlahTransaksiLunas}, Belum: ${jumlahTransaksiBelum}) | `;
+            summaryText += `Total Lunas: ${formatRupiah(totalLunas).replace('Rp', '')} | Keuntungan Lunas: ${formatRupiah(keuntunganLunas).replace('Rp', '')}`;
+            
+            if (totalBelumLunas > 0) {
+                summaryText += ` | Total Belum Lunas: ${formatRupiah(totalBelumLunas).replace('Rp', '')}`;
+            }
+            
+            doc.text(summaryText, 14, 55);
+            
+            // Siapkan data untuk tabel
+            const headers = [
+                {title: "Tanggal/Waktu", dataKey: "datetime"},
+                {title: "Pembeli", dataKey: "pembeli"},
+                {title: "Produk", dataKey: "produk"},
+                {title: "Varian", dataKey: "varian"},
+                {title: "Jumlah", dataKey: "jumlah"},
+                {title: "Total", dataKey: "total"},
+                {title: "Keuntungan", dataKey: "keuntungan"},
+                {title: "Status", dataKey: "status"}
+            ];
+            
+            const rows = [];
+            const grouped = groupTransaksiForPDF(dataFilter);
+            
+            for (const bulan in grouped) {
+                // Tambahkan header bulan
+                rows.push({
+                    datetime: bulan,
+                    pembeli: "",
+                    produk: "",
+                    varian: "",
+                    jumlah: "",
+                    total: "",
+                    keuntungan: "",
+                    status: "",
+                    rowType: "monthHeader"
+                });
+                
+                for (const tgl in grouped[bulan]) {
+                    const harianData = grouped[bulan][tgl];
+                    const tanggal = harianData[0].formattedDate;
+                    
+                    // Hitung total untuk tanggal ini
+                    const totalHarianLunas = harianData
+                        .filter(t => t.statusPembayaran === 'lunas')
+                        .reduce((sum, t) => sum + t.totalHarga, 0);
+                    
+                    const keuntunganHarianLunas = harianData
+                        .filter(t => t.statusPembayaran === 'lunas')
+                        .reduce((sum, t) => sum + t.keuntungan, 0);
+                    
+                    const totalHarianBelum = harianData
+                        .filter(t => t.statusPembayaran === 'belum')
+                        .reduce((sum, t) => sum + t.totalHarga, 0);
+                    
+                    const transaksiHarianLunas = harianData.filter(t => t.statusPembayaran === 'lunas').length;
+                    const transaksiHarianBelum = harianData.filter(t => t.statusPembayaran === 'belum').length;
+                    
+                    // Tambahkan ringkasan tanggal
+                    let dateSummary = `${tanggal} — ${harianData.length} transaksi `;
+                    dateSummary += `(Lunas: ${transaksiHarianLunas}, Belum: ${transaksiHarianBelum}) | `;
+                    dateSummary += `Total Lunas: ${formatRupiah(totalHarianLunas).replace('Rp', '')} | `;
+                    dateSummary += `Keuntungan: ${formatRupiah(keuntunganHarianLunas).replace('Rp', '')}`;
+                    
+                    if (totalHarianBelum > 0) {
+                        dateSummary += ` | Total Belum Lunas: ${formatRupiah(totalHarianBelum).replace('Rp', '')}`;
+                    }
+                    
+                    // Tambahkan baris ringkasan tanggal yang akan memanjang ke seluruh kolom
+                    rows.push({
+                        datetime: dateSummary,
+                        pembeli: "",
+                        produk: "",
+                        varian: "",
+                        jumlah: "",
+                        total: "",
+                        keuntungan: "",
+                        status: "",
+                        rowType: "dateHeader"
+                    });
+                    
+                    // Tambahkan data transaksi
+                    harianData.forEach(trx => {
+                        rows.push({
+                            datetime: trx.waktu,
+                            pembeli: trx.namaPembeli,
+                            produk: trx.namaBarang,
+                            varian: trx.varian || '-',
+                            jumlah: trx.jumlah,
+                            total: trx.totalHarga,
+                            keuntungan: trx.keuntungan,
+                            status: trx.statusPembayaran === 'lunas' ? 'Lunas' : 'Belum',
+                            rowType: "data",
+                            isUnpaid: trx.statusPembayaran === 'belum'
+                        });
+                    });
+                }
+            }
+            
+            // Generate tabel dengan autoTable
+            doc.autoTable({
+                head: [headers.map(h => h.title)],
+                body: rows.map(row => {
+                    if (row.rowType === "monthHeader") {
+                        // Baris bulan - colspan 8
+                        return [
+                            {content: row.datetime, colSpan: 8, styles: {halign: 'left'}}
+                        ];
+                    } else if (row.rowType === "dateHeader") {
+                        // Baris tanggal - colspan 8
+                        return [
+                            {content: row.datetime, colSpan: 8, styles: {halign: 'left'}}
+                        ];
+                    } else {
+                        // Baris data transaksi normal
+                        return [
+                            row.datetime,
+                            row.pembeli,
+                            row.produk,
+                            row.varian,
+                            row.jumlah,
+                            formatRupiah(row.total).replace('Rp', ''),
+                            formatRupiah(row.keuntungan).replace('Rp', ''),
+                            row.status
+                        ];
+                    }
+                }),
+                startY: 65,
+                styles: { 
+                    fontSize: 8,
+                    cellPadding: 3,
+                    overflow: 'linebreak'
+                },
+                columnStyles: {
+                    0: { cellWidth: 20 },
+                    1: { cellWidth: 25 },
+                    2: { cellWidth: 30 },
+                    3: { cellWidth: 20 },
+                    4: { cellWidth: 15 },
+                    5: { cellWidth: 25 },
+                    6: { cellWidth: 25 },
+                    7: { cellWidth: 20 }
+                },
+                didParseCell: function(data) {
+                    // Style untuk header bulan
+                    if (data.row.raw.rowType === "monthHeader") {
+                        data.cell.styles.fillColor = [200, 200, 200]; // Warna abu-abu
+                        data.cell.styles.fontStyle = 'bold';
+                        data.cell.styles.fontSize = 10;
+                        data.cell.styles.halign = 'left';
+                    }
+                    
+                    // Style untuk header tanggal
+                    if (data.row.raw.rowType === "dateHeader") {
+                        data.cell.styles.fillColor = [235, 235, 235]; // Warna abu-abu muda
+                        data.cell.styles.fontStyle = 'bold';
+                        data.cell.styles.fontSize = 9;
+                        data.cell.styles.halign = 'left';
+                    }
+                    
+                    // Style untuk transaksi belum lunas
+                    if (data.row.raw.isUnpaid && (data.column.dataKey === "total" || data.column.dataKey === "keuntungan")) {
+                        data.cell.styles.textColor = [244, 67, 54]; // Warna merah
+                    }
+                    
+                    // Style untuk kolom status
+                    if (data.column.dataKey === "status") {
+                        if (data.row.raw.status === "Lunas") {
+                            data.cell.styles.textColor = [76, 175, 80]; // Hijau untuk lunas
+                        } else {
+                            data.cell.styles.textColor = [244, 67, 54]; // Merah untuk belum lunas
+                        }
+                        data.cell.styles.fontStyle = 'bold';
+                    }
+                }
+            });
+            
+            // Simpan PDF
+            doc.save(`Riwayat_Transaksi_${monthTitle.replace(' ', '_')}.pdf`);
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate category dropdowns
+            populateCategoryDropdown('kategori-barang');
+            populateCategoryDropdown('filter-kategori');
+            
+            renderBarangTable();
+            renderKategoriTable();
+            updateWaktu();
+            
+            // Set current month as default
+            const now = new Date();
+            const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('stat-month').value = currentMonth;
+            document.getElementById('pdf-month').value = currentMonth;
+            
+            updateStatistics();
+            updatePDFPreview();
+            
+            // Update time every second
+            setInterval(updateWaktu, 1000);
+            
+            // Close search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#hasil-pencarian') && e.target.id !== 'cari-barang-penjualan') {
+                    document.getElementById('hasil-pencarian').style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
