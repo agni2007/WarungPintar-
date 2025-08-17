@@ -1022,13 +1022,14 @@
 
         function hapusKategori(namaKategori) {
             if (confirm(`Apakah Anda yakin ingin menghapus kategori "${namaKategori}"?`)) {
-                const produkDenganKategori = daftarBarang.filter(barang => barang.kategori === namaKategori);
+                // Update semua produk yang memiliki kategori ini menjadi tanpa kategori
+                daftarBarang.forEach(barang => {
+                    if (barang.kategori === namaKategori) {
+                        barang.kategori = null;
+                    }
+                });
                 
-                if (produkDenganKategori.length > 0) {
-                    alert(`Tidak dapat menghapus kategori karena terdapat ${produkDenganKategori.length} produk yang menggunakan kategori ini.`);
-                    return;
-                }
-                
+                // Hapus kategori dari daftar
                 daftarKategori = daftarKategori.filter(k => k !== namaKategori);
                 saveToLocalStorage();
                 
@@ -1036,7 +1037,8 @@
                 populateCategoryDropdown('filter-kategori');
                 
                 renderKategoriTable();
-                alert('Kategori berhasil dihapus');
+                renderBarangTable();
+                alert('Kategori berhasil dihapus. Produk yang terkait sekarang menjadi tanpa kategori.');
             }
         }
 
@@ -1360,18 +1362,12 @@
         }
 
         function hapusBarang(id) {
-            if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
-                const transaksiDenganBarang = riwayatTransaksi.filter(t => t.barangId === id);
-                
-                if (transaksiDenganBarang.length > 0) {
-                    alert(`Tidak dapat menghapus barang karena terdapat ${transaksiDenganBarang.length} transaksi yang menggunakan barang ini.`);
-                    return;
-                }
-                
+            if (confirm('Apakah Anda yakin ingin menghapus barang ini? Transaksi yang terkait akan tetap ada.')) {
+                // Hapus barang dari daftar
                 daftarBarang = daftarBarang.filter(b => b.id !== id);
                 saveToLocalStorage();
                 renderBarangTable();
-                alert('Barang berhasil dihapus!');
+                alert('Barang berhasil dihapus! Transaksi yang terkait tetap ada di riwayat.');
             }
         }
 
